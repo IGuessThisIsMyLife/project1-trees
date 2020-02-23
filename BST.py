@@ -1,3 +1,8 @@
+#Jonathan Nunes
+#Project 1: Trees
+
+import random
+
 def insertRec():
   return
   
@@ -37,8 +42,17 @@ def findMaxIter():
 def sort():
   return
   
-def getRandomArray():
-  return
+def getRandomArray(n):
+  temp = randint(0, 999)
+  arr = [None]*n
+  for i in range(n):
+    while temp in arr:
+      temp = randint(0, 999)
+    arr[i] = temp
+  return arr
   
-def getSortedArray():
-  return
+def getSortedArray(n):
+  arr = [None]*n
+  for i in range(n):
+    arr[i] = n - i
+  return arr
