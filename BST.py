@@ -20,32 +20,40 @@ class BST:
 
     def insertRec(self, curr, node):
         """Recursive Insertion"""
+        #Insertion on empty tree
         if self.root is None:
             self.root = node
         else:
+            #If node to be inserted is greater than current node
             if curr.data < node.data:
                 if curr.right is None:
-                    curr.right = node
-                    curr.right.parent = curr
+                    curr.right = node           #Inserting node to right child
+                    curr.right.parent = curr    #Marking current as parent
                 else:
                     self.insertRec(curr.right, node)
             else:
+                #If node to be inserted is less than current node
                 if curr.left is None:
-                    curr.left = node
-                    curr.left.parent = curr
+                    curr.left = node            #Inserting node to left child
+                    curr.left.parent = curr     #Marking current as parent
                 else:
                     self.insertRec(curr.left, node)
 
 
     def deleteRec(self, curr, node):
         """Recursive Deletion"""
+        #Base case
         if curr is None:
             return curr
+
+        #Finding node to delete within tree
         if curr.data > node.data:
             curr.left = self.deleteRec(curr.left, node)
         elif curr.data < node.data:
             curr.right = self.deleteRec(curr.right, node)
         else:
+            
+            #Deleting "node" and reassigning child/parent connections
             if curr.right is None:
                 temp = curr.left
                 curr = None
@@ -62,36 +70,31 @@ class BST:
 
     def findNextRec(self, curr, node):
         """Recursive Find Next"""
+        #Finding the node within the tree
         curr = self.search(self.root, node)
+
+        #Base case
         if curr is None:
             return curr
+        #If a right child exists it'll be the smallest value
         if curr.right is not None:
             return self.findMinRec(curr.right)
+        #If no right child exists, go up the parent until you find a right child
         if curr.parent.left.data == curr.data:
             return curr.parent
-        else:
+        #else:
             
         
 
     def findPrevRec(self, curr, node):
         """Recursive Find Prev"""
-        if curr.data == node.data:
-            if curr.left is not None:
-                return self.findMaxRec(curr.left)
-        elif curr.data > node.data:
-            if curr.left is not None:
-                print(curr.data)
-                return self.findPrevRec(curr.left, node)
-        else:
-            if curr.right is not None:
-                print(curr.data)
-                return self.findPrevRec(curr.right, node)
+        pass
 
 
     def findMinRec(self, curr):
         """Recursive Find Min"""
         if curr.left is not None:
-            return self.findMinRec(curr.left)
+            return self.findMinRec(curr.left) #Finding the left most node
         else:
             return curr
             
@@ -99,28 +102,30 @@ class BST:
     def findMaxRec(self, curr):
         """Recursive Find Max"""
         if curr.right is not None:
-            return self.findMaxRec(curr.right)
+            return self.findMaxRec(curr.right) #Finding the right most node
         else:        
             return curr    
 
 
     def insertIter(self, curr, node):
         """Iterative Insertion"""
+        #Inertion into empty tree
         if self.root is None:
             self.root = node
             return
+        #While it hasn't inserted
         while True:
             if curr.data < node.data:
                 if curr.right is None:
-                    curr.right = node
-                    curr.right.parent = curr
+                    curr.right = node           #Inserting node to right child
+                    curr.right.parent = curr    #marking current as parent
                     break
                 else:
                     curr = curr.right
             else:
                 if curr.left is None:
-                    curr.left = node
-                    curr.left.parent = curr
+                    curr.left = node            #Inserting node to left child
+                    curr.left.parent = curr     #marking current as parent
                     break
                 else:
                     curr = curr.left
@@ -128,22 +133,20 @@ class BST:
 
     def deleteIter(self, curr, node):
         """Iterative Deletion"""
-        if curr is None:
-            return curr
-        if curr.left is None and curr.right is None:
-            if curr.data == node.data:
-                return None
-            else:
-                return curr
+        pass
         
 
 
     def findNextIter(self, curr, node):
         """Iterative Find Next"""
+        #Search for node in tree
         curr = self.search(self.root, node)
+
+        ##If a right child exists it'll be the smallest value
         if curr.right is not None:
             return self.findMinIter(curr.right)
-        
+
+        #If no right child exists, go up the parent until you find a right child
         parent = curr.parent
         while parent is not None:
             if curr != parent.right:
@@ -155,10 +158,14 @@ class BST:
 
     def findPrevIter(self, curr, node):
         """Iterative Find Prev"""
+        #Search for node in tree
         curr = self.search(self.root, node)
+
+        #If a left child exists it'll be the smallest value
         if curr.left is not None:
             return self.findMaxIter(curr.left)
-        
+
+        #If no left child exists, go up the parent until you find a left child
         parent = curr.parent
         while parent is not None:
             if curr != parent.left:
@@ -171,14 +178,14 @@ class BST:
     def findMinIter(self, curr):
         """Iterative Find Min"""
         while curr.left is not None:
-            curr = curr.left
+            curr = curr.left #Finding the leftmost node
         return curr
 
 
     def findMaxIter(self, curr):
         """Iterative Find Max"""
         while curr.right is not None:
-            curr = curr.right
+            curr = curr.right #finding the rightmost node
         return curr
 
 
@@ -206,17 +213,24 @@ class BST:
 def sort(arr):
     """Sorting Function"""
     tree = BST()
+    
+    #insert root
     tree.insertRec(tree.root, Node(arr[0]))
+
+    #for every item, insert into tree
     for item in arr:
         if item == tree.root.data:
             continue
         tree.insertRec(tree.root, Node(item))
     ret = []
+
+    #i needed a helper for the sorting
     return treeSort(tree.root, ret)
 
 
 def treeSort(root, ret):
     """Helper Function Building Sorted Array Recursively"""
+    #An in order traversal
     if root is None:
         return
     treeSort(root.left, ret)
@@ -231,7 +245,7 @@ def getRandomArray(n):
     arr = [None] * n
     for i in range(n):
         while temp in arr:
-            temp = random.randint(0, 999)
+            temp = random.randint(0, 999) #adding n items between 0-999 to return array
         arr[i] = temp
     return arr
 
@@ -240,9 +254,10 @@ def getSortedArray(n):
     """Created Sorted Array"""
     arr = [None] * n
     for i in range(n):
-        arr[i] = n - i
+        arr[i] = n - i      #Using the negtive indexing to insert into return array
     return arr
 
+#All my testing
 print("Test Recursive Functions")
 recTree = BST()
 recTree.insertRec(recTree.root, Node(50))
