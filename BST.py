@@ -3,6 +3,7 @@
 
 import random
 
+
 class Node:
     def __init__(self, n):
         """Node Constructor"""
@@ -241,11 +242,11 @@ def treeSort(root, ret):
 
 def getRandomArray(n):
     """Create Randomly Filled Array"""
-    temp = random.randint(0, 999)
+    temp = random.randint(0, 99999)
     arr = [None] * n
     for i in range(n):
         while temp in arr:
-            temp = random.randint(0, 999) #adding n items between 0-999 to return array
+            temp = random.randint(0, 99999) #adding n items between 0-999 to return array
         arr[i] = temp
     return arr
 
@@ -323,9 +324,9 @@ print("BST After Iteratively Deleting 17, 50, 400, and 4:")
 iterTree.display(iterTree.root)
 
 print("\n\nTest Question 2 & 3")
-randomArr = getRandomArray(10)
+randomArr = getRandomArray(10000)
 print(randomArr)
 sortedArr = sort(randomArr)
 print(sortedArr)
 
-print(getSortedArray(10))
+print(getSortedArray(10000))
