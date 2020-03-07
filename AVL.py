@@ -70,26 +70,22 @@ class AVL:
 
             # Left Left Case
             if balance > 1 and node.data < curr.left.data:
-                print("Left Left")
                 self.rotateRight(curr)
                 break
 
             # Right Right Case
             if balance < -1 and node.data > curr.right.data:
-                print("Right Right")
                 self.rotateLeft(curr)
                 break
 
             # Left Right Case
             if balance > 1 and node.data > curr.left.data:
-                print("Left Right")
                 self.rotateLeft(curr.left)
                 self.rotateRight(curr)
                 break
 
             # Right Left Case
             if balance < -1 and node.data < curr.right.data:
-                print("Right Left")
                 self.rotateRight(curr.right)
                 self.rotateLeft(curr)
                 break
@@ -287,6 +283,48 @@ class AVL:
                     curr = curr.left
         return curr
 
+
+def sort(arr):
+    """Sorting Function"""
+    tree = AVL()
+
+    # insert root
+    tree.insertIter(tree.root, Node(arr[0]))
+
+    # for every item, insert into tree
+    for item in arr:
+        if item == tree.root.data:
+            continue
+        tree.insertIter(tree.root, Node(item))
+    ret = []
+
+    node = tree.findMaxIter(tree.root).data
+    num = 0
+    ret[num] = node
+    while tree.findNextIter(tree.root, Node(node)) is not None:
+        ret[num + 1] = tree.findNextIter(tree.root, Node(node)).data
+        node = tree.findNextIter(tree.root, Node(node)).data
+
+    return ret
+
+
+def getRandomArray(n):
+    """Create Randomly Filled Array"""
+    temp = random.randint(0, 99999)
+    arr = [None] * n
+    for i in range(n):
+        while temp in arr:
+            temp = random.randint(0, 99999)  # adding n items between 0-999 to return array
+        arr[i] = temp
+    return arr
+
+
+def getSortedArray(n):
+    """Created Sorted Array"""
+    arr = [None] * n
+    for i in range(n):
+        arr[i] = n - i  # Using the negative indexing to insert into return array
+    return arr
 
 print("Test Iterative Functions")
 iterTree = AVL()
