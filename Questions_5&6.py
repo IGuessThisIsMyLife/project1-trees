@@ -499,6 +499,81 @@ class BST:
         return curr
 
 
+def BSTsort_Rec(arr):
+    """Sorting Function"""
+    tree = BST()
+
+    # insert root
+    tree.insertRec(tree.root, BSTNode(arr[0]))
+
+    # for every item, insert into tree
+    for item in arr:
+        if item == tree.root.data:
+            continue
+        tree.insertRec(tree.root, BSTNode(item))
+    ret = []
+
+    # i needed a helper for the sorting
+    return treeSort(tree.root, ret)
+
+
+def treeSort(root, ret):
+    """Helper Function Building Sorted Array Recursively"""
+    #An in order traversal
+    if root is None:
+        return
+    treeSort(root.left, ret)
+    ret.append(root.data)
+    treeSort(root.right, ret)
+    return ret
+
+
+def BSTsort_Iter(arr):
+    """Sorting Function"""
+    tree = BST()
+
+    # insert root
+    tree.insertIter(tree.root, BSTNode(arr[0]))
+
+    # for every item, insert into tree
+    for item in arr:
+        if item == tree.root.data:
+            continue
+        tree.insertIter(tree.root, BSTNode(item))
+    ret = []
+
+    node = tree.findMinIter(tree.root).data
+    ret.append(node)
+    while tree.findNextIter(tree.root, BSTNode(node)) is not None:
+        ret.append(tree.findNextIter(tree.root, BSTNode(node)).data)
+        node = tree.findNextIter(tree.root, BSTNode(node)).data
+
+    return ret
+
+
+def AVLsort_Iter(arr):
+    """Sorting Function"""
+    tree = AVL()
+
+    # insert root
+    tree.insertIter(tree.root, AVLNode(arr[0]))
+
+    # for every item, insert into tree
+    for item in arr:
+        if item == tree.root.data:
+            continue
+        tree.insertIter(tree.root, AVLNode(item))
+    ret = []
+
+    node = tree.findMinIter(tree.root).data
+    ret.append(node)
+    while tree.findNextIter(tree.root, AVLNode(node)) is not None:
+        ret.append(tree.findNextIter(tree.root, AVLNode(node)).data)
+        node = tree.findNextIter(tree.root, AVLNode(node)).data
+
+    return ret
+
+
 def getRandomArray(n):
     """Create Randomly Filled Array"""
     temp = random.randint(0, 99999)
@@ -522,40 +597,22 @@ print("Testing And Answering Questions")
 unsorted = getRandomArray(10000)
 issorted = getSortedArray(10000)
 
-BSTRec_unsorted = BST()
-BSTIter_unsorted = BST()
-AVLIter_unsorted = AVL()
+fiveA = BSTsort_Rec(unsorted)
+print("5(a)\nBST Recursive:", fiveA)
 
-for i in unsorted:
-    BSTRec_unsorted.insertRec(BSTRec_unsorted.root, BSTNode(i))
-    BSTIter_unsorted.insertIter(BSTIter_unsorted.root, BSTNode(i))
-    AVLIter_unsorted.insertIter(AVLIter_unsorted.root, AVLNode(i))
-
-print("5(a)\nBST Recursive:\n")
-BSTRec_unsorted.display(BSTRec_unsorted.root)
-
-print("\n5(c)\nBST Iteration:\n")
-BSTIter_unsorted.display(BSTIter_unsorted.root)
-
-print("\nAVL Iteration:\n")
-AVLIter_unsorted.display(AVLIter_unsorted.root)
+fiveC_BST = BSTsort_Iter(unsorted)
+print("\n5(c)\nBST Iteration:", fiveC_BST)
+#fiveC_AVL = AVLsort_Iter(unsorted)  # Not working, i think this is where my rotation edge case is problematic
+#print("\nAVL Iteration:\n", fiveC_AVL)
 
 print("\n6(b)\nBST Traversals: {0}\tAVL Traversals: {1}".format(BSTctr, AVLctr))
 
 AVLctr = 0
 BSTctr = 0
 
-BSTIter_issorted = BST()
-AVLIter_issorted = AVL()
-
-for i in issorted:
-    BSTIter_issorted.insertIter(BSTIter_issorted.root, BSTNode(i))
-    AVLIter_issorted.insertIter(AVLIter_issorted.root, AVLNode(i))
-
-print("\n6(c)\nBST Iteration:\n")
-BSTIter_issorted.insertIter(BSTIter_issorted.root)
-
-print("\nAVL Iteration:\n")
-AVLIter_issorted.insertIter(AVLIter_issorted.root)
+sixC_BST = BSTsort_Iter(issorted)
+print("\n6(c)\nBST Iteration:", sixC_BST)
+sixC_AVL = AVLsort_Iter(issorted)  # Not working
+print("\nAVL Iteration:", sixC_AVL)
 
 print("\n6(c)\nBST Traversals: {0}\tAVL Traversals: {1}".format(BSTctr, AVLctr))
