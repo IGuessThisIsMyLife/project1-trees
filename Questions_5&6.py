@@ -78,22 +78,26 @@ class AVL:
 
             # Left Left Case
             if balance > 1 and node.data < curr.left.data:
+                print("Left Left")
                 self.rotateRight(curr)
                 break
 
             # Right Right Case
             if balance < -1 and node.data > curr.right.data:
+                print("Right Right")
                 self.rotateLeft(curr)
                 break
 
             # Left Right Case
             if balance > 1 and node.data > curr.left.data:
+                print("Left Right")
                 self.rotateLeft(curr.left)
                 self.rotateRight(curr)
                 break
 
             # Right Left Case
             if balance < -1 and node.data < curr.right.data:
+                print("Right Left")
                 self.rotateRight(curr.right)
                 self.rotateLeft(curr)
                 break
@@ -563,6 +567,8 @@ def AVLsort_Iter(arr):
         if item == tree.root.data:
             continue
         tree.insertIter(tree.root, AVLNode(item))
+        tree.display(tree.root)
+        print("\n")
     ret = []
 
     node = tree.findMinIter(tree.root).data
@@ -576,20 +582,20 @@ def AVLsort_Iter(arr):
 
 def getRandomArray(n):
     """Create Randomly Filled Array"""
-    temp = random.randint(0, 99999)
-    arr = []
+    temp = random.randint(1, n)
+    arr = [None] * n
     for i in range(n):
         while temp in arr:
-            temp = random.randint(0, 99999)  # adding n items between 0-999 to return array
-        arr.append(temp)
+            temp = random.randint(1, n + 1)  # adding n items between 0-999 to return array
+        arr[i] = temp
     return arr
 
 
 def getSortedArray(n):
     """Created Sorted Array"""
-    arr = []
+    arr = [None] * n
     for i in range(n):
-        arr.append(n - i)  # Using the negative indexing to insert into return array
+        arr[i] = n - i  # Using the negative indexing to insert into return array
     return arr
 
 
@@ -602,8 +608,8 @@ print("5(a)\nBST Recursive:", fiveA)
 
 fiveC_BST = BSTsort_Iter(unsorted)
 print("\n5(c)\nBST Iteration:", fiveC_BST)
-#fiveC_AVL = AVLsort_Iter(unsorted)  # Not working, i think this is where my rotation edge case is problematic
-#print("\nAVL Iteration:\n", fiveC_AVL)
+fiveC_AVL = AVLsort_Iter(unsorted)  # Not working, i think this is where my rotation edge case is problematic
+print("\nAVL Iteration:\n", fiveC_AVL)
 
 print("\n6(b)\nBST Traversals: {0}\tAVL Traversals: {1}".format(BSTctr, AVLctr))
 
