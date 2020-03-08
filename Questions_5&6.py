@@ -78,26 +78,22 @@ class AVL:
 
             # Left Left Case
             if balance > 1 and node.data < curr.left.data:
-                print("Left Left")
                 self.rotateRight(curr)
                 break
 
             # Right Right Case
             if balance < -1 and node.data > curr.right.data:
-                print("Right Right")
                 self.rotateLeft(curr)
                 break
 
             # Left Right Case
             if balance > 1 and node.data > curr.left.data:
-                print("Left Right")
                 self.rotateLeft(curr.left)
                 self.rotateRight(curr)
                 break
 
             # Right Left Case
             if balance < -1 and node.data < curr.right.data:
-                print("Right Left")
                 self.rotateRight(curr.right)
                 self.rotateLeft(curr)
                 break
@@ -262,16 +258,6 @@ class AVL:
         mid.right = pivot
         pivot.parent = mid
 
-        if mid.left is None:
-            lheight = 0
-        else:
-            lheight = mid.left.height
-        if mid.right is None:
-            rheight = 0
-        else:
-            rheight = mid.right.height
-        mid.height = 1 + max(lheight, rheight)
-
         if pivot.left is None:
             lheight = 0
         else:
@@ -281,6 +267,16 @@ class AVL:
         else:
             rheight = pivot.right.height
         pivot.height = 1 + max(lheight, rheight)
+
+        if mid.left is None:
+            lheight = 0
+        else:
+            lheight = mid.left.height
+        if mid.right is None:
+            rheight = 0
+        else:
+            rheight = mid.right.height
+        mid.height = 1 + max(lheight, rheight)
 
     def display(self, curr):
         """For My Testing Purposes: Prints All Nodes In Order"""
@@ -567,8 +563,6 @@ def AVLsort_Iter(arr):
         if item == tree.root.data:
             continue
         tree.insertIter(tree.root, AVLNode(item))
-        tree.display(tree.root)
-        print("\n")
     ret = []
 
     node = tree.findMinIter(tree.root).data
@@ -608,8 +602,8 @@ print("5(a)\nBST Recursive:", fiveA)
 
 fiveC_BST = BSTsort_Iter(unsorted)
 print("\n5(c)\nBST Iteration:", fiveC_BST)
-fiveC_AVL = AVLsort_Iter(unsorted)  # Not working, i think this is where my rotation edge case is problematic
-print("\nAVL Iteration:\n", fiveC_AVL)
+#fiveC_AVL = AVLsort_Iter(unsorted)  # Not working, i think this is where my rotation edge case is problematic
+print("\nAVL Iteration: Can't Figure Out Edge Case") #, fiveC_AVL)
 
 print("\n6(b)\nBST Traversals: {0}\tAVL Traversals: {1}".format(BSTctr, AVLctr))
 
